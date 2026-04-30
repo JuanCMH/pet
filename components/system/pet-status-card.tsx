@@ -27,7 +27,7 @@ const petStatusVariants = cva(
 const petStatusTextByVariant = {
   healthy: "Buen estado general",
   attention: "Requiere seguimiento",
-  critical: "Atencion inmediata",
+  critical: "Atención inmediata",
 } as const;
 
 const petStatusColorByVariant = {

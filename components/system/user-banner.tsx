@@ -45,7 +45,7 @@ export function UserBanner({
       </View>
 
       <Pressable
-        accessibilityLabel="Abrir configuracion"
+        accessibilityLabel="Abrir configuración"
         accessibilityRole="button"
         className="items-center justify-center"
         disabled={disabled || !onSettingsPress}

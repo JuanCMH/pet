@@ -5,7 +5,16 @@ import {
   Link2,
   LoaderCircle,
 } from "lucide-react-native";
+import { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
+import Animated, {
+  cancelAnimation,
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 
 import { AppColors } from "@/constants/theme";
 import { cn } from "@/lib/utils";
@@ -29,13 +38,38 @@ export type DeviceFieldProps = {
 };
 
 function DeviceStatusIcon({ status }: { status: DeviceFieldStatus }) {
+  const rotation = useSharedValue(0);
+
+  useEffect(() => {
+    if (status === "connecting") {
+      rotation.value = 0;
+      rotation.value = withRepeat(
+        withTiming(360, { duration: 900, easing: Easing.linear }),
+        -1,
+        false,
+      );
+      return () => {
+        cancelAnimation(rotation);
+      };
+    }
+
+    cancelAnimation(rotation);
+    rotation.value = 0;
+  }, [rotation, status]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${rotation.value}deg` }],
+  }));
+
   switch (status) {
     case "connecting":
       return (
-        <LoaderCircle color={AppColors.cobalto} size={16} strokeWidth={2} />
+        <Animated.View style={animatedStyle}>
+          <LoaderCircle color={AppColors.cobalto} size={16} strokeWidth={2} />
+        </Animated.View>
       );
     case "available":
-      return <Circle size={16} strokeWidth={2} />;
+      return <Circle color={AppColors.cobalto} size={16} strokeWidth={2} />;
     case "connected":
       return <CircleCheck color={AppColors.verde} size={16} strokeWidth={2} />;
     case "disconnected":

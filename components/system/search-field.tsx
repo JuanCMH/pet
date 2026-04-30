@@ -17,12 +17,6 @@ export function SearchField({
   placeholder,
   ...props
 }: SearchFieldProps) {
-  const resolvedPlaceholder = placeholder
-    ? placeholder.trim().startsWith("Ej:")
-      ? placeholder.trim()
-      : `Ej: ${placeholder.trim()}`
-    : undefined;
-
   return (
     <View className={cn("gap-2", className)}>
       <Text className="font-bold text-[14px] text-cobalto">{label}</Text>
@@ -33,7 +27,7 @@ export function SearchField({
             "flex-1 border-0 bg-transparent text-cobalto outline-none",
             inputClassName,
           )}
-          placeholder={resolvedPlaceholder}
+          placeholder={placeholder?.trim()}
           placeholderTextColor={`${AppColors.cobalto}80`}
           {...props}
         />

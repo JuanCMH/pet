@@ -13,10 +13,6 @@ export default function HomeScreen() {
         <View className="gap-4">
           <View className="gap-1">
             <Text className="font-bold text-3xl text-cobalto">Componentes</Text>
-            <Text className="font-sans text-xs text-cobalto">
-              Sistema de diseno. Cada tarjeta ocupa una sola celda. Para agregar
-              uno nuevo edita `components/system/showcase/registry.tsx`.
-            </Text>
           </View>
 
           <View className="flex-row flex-wrap gap-3">

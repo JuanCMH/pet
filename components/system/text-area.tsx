@@ -5,28 +5,42 @@ import {
   type Path,
   type RegisterOptions,
 } from "react-hook-form";
-import { Text, TextInput, View, type TextInputProps } from "react-native";
+import {
+  Platform,
+  Text,
+  TextInput,
+  View,
+  type TextInputProps,
+  type TextStyle,
+} from "react-native";
 
 import { AppColors } from "@/constants/theme";
 import { cn } from "@/lib/utils";
 
-export type TextInputFieldProps = TextInputProps & {
+const TEXT_AREA_LINE_HEIGHT = 20;
+const TEXT_AREA_VERTICAL_PADDING = 16;
+const DEFAULT_TEXT_AREA_ROWS = 3;
+
+export type TextAreaFieldProps = Omit<TextInputProps, "multiline"> & {
   label: string;
+  rows?: number;
   className?: string;
   inputClassName?: string;
   error?: string;
   helperText?: string;
 };
 
-export function TextInputField({
+export function TextAreaField({
   label,
+  rows = DEFAULT_TEXT_AREA_ROWS,
   className,
   inputClassName,
   placeholder,
   error,
   helperText,
+  style,
   ...props
-}: TextInputFieldProps) {
+}: TextAreaFieldProps) {
   const resolvedPlaceholder = placeholder
     ? placeholder.trim().startsWith("Ej:")
       ? placeholder.trim()
@@ -35,6 +49,13 @@ export function TextInputField({
 
   const showError = Boolean(error);
   const helperMessage = showError ? error : helperText;
+  const resolvedRows = Math.max(1, Math.floor(rows));
+  const minHeight =
+    resolvedRows * TEXT_AREA_LINE_HEIGHT + TEXT_AREA_VERTICAL_PADDING;
+  const webStyle =
+    Platform.OS === "web"
+      ? ({ resize: "none" } as TextStyle & { resize: "none" })
+      : null;
 
   return (
     <View className={cn("gap-2", className)}>
@@ -43,12 +64,14 @@ export function TextInputField({
       <TextInput
         accessibilityLabel={label}
         className={cn(
-          "rounded-component border border-gris bg-blanco px-2 py-2 text-cobalto shadow-sm outline-none",
+          "rounded-component border border-gris bg-blanco px-2 py-2 text-[14px] leading-[20px] text-cobalto shadow-sm outline-none",
           showError && "border-rojo",
           inputClassName,
         )}
+        multiline
         placeholder={resolvedPlaceholder}
         placeholderTextColor={`${AppColors.cobalto}80`}
+        style={[{ minHeight, textAlignVertical: "top" }, webStyle, style]}
         {...props}
       />
 
@@ -63,8 +86,8 @@ export function TextInputField({
   );
 }
 
-export type ControlledTextInputFieldProps<T extends FieldValues> = Omit<
-  TextInputFieldProps,
+export type ControlledTextAreaFieldProps<T extends FieldValues> = Omit<
+  TextAreaFieldProps,
   "value" | "onChangeText" | "onBlur" | "error"
 > & {
   name: Path<T>;
@@ -76,13 +99,13 @@ export type ControlledTextInputFieldProps<T extends FieldValues> = Omit<
   defaultValue?: string;
 };
 
-export function ControlledTextInputField<T extends FieldValues>({
+export function ControlledTextAreaField<T extends FieldValues>({
   name,
   control,
   rules,
   defaultValue = "",
   ...rest
-}: ControlledTextInputFieldProps<T>) {
+}: ControlledTextAreaFieldProps<T>) {
   return (
     <Controller
       control={control}
@@ -92,7 +115,7 @@ export function ControlledTextInputField<T extends FieldValues>({
         field: { onChange, onBlur, value },
         fieldState: { error },
       }) => (
-        <TextInputField
+        <TextAreaField
           {...rest}
           error={error?.message}
           onBlur={onBlur}
@@ -103,3 +126,5 @@ export function ControlledTextInputField<T extends FieldValues>({
     />
   );
 }
+
+export { DEFAULT_TEXT_AREA_ROWS };

@@ -30,13 +30,13 @@ export function StatusItem({
       <Icon color={AppColors.blanco} size={16} strokeWidth={2} />
 
       <Text
-        className="flex-1 font-semibold text-[14px] text-white"
+        className="flex-1 font-semibold text-[14px] text-blanco"
         numberOfLines={1}
       >
         {title}
       </Text>
 
-      <Text className="text-[14px] text-white" numberOfLines={1}>
+      <Text className="text-[14px] text-blanco" numberOfLines={1}>
         {value}
       </Text>
     </View>

@@ -1,4 +1,4 @@
-import { PressableProps, Text, View } from "react-native";
+import { Text, View, type PressableProps } from "react-native";
 
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,7 @@ export type EmptyStateProps = {
 
 export function EmptyState({
   title = "No se encontraron registros",
-  actionLabel = "Accion",
+  actionLabel = "Acción",
   onActionPress,
   className,
   disabled = false,
@@ -30,14 +30,16 @@ export function EmptyState({
         {title}
       </Text>
 
-      <Button
-        className="self-center"
-        disabled={disabled}
-        onPress={onActionPress}
-        variant="cyan"
-      >
-        {actionLabel}
-      </Button>
+      {onActionPress ? (
+        <Button
+          className="self-center"
+          disabled={disabled}
+          onPress={onActionPress}
+          variant="cyan"
+        >
+          {actionLabel}
+        </Button>
+      ) : null}
     </View>
   );
 }

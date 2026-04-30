@@ -8,7 +8,12 @@ import {
   DeviceField,
   EmptyState,
   FloatingCard,
+  ForumItemCard,
   ImageUpload,
+  MapDetailCard,
+  MapItemCard,
+  MedicationDetailCard,
+  MedicationItemCard,
   NavigationCard,
   PetItemCard,
   PetPicker,
@@ -16,6 +21,7 @@ import {
   SearchField,
   SelectField,
   StatusItem,
+  TextAreaField,
   TextInputField,
   UserBanner,
 } from "@/components/system";
@@ -128,6 +134,23 @@ export const showcaseRegistry: ShowcaseEntry[] = [
     ),
   },
   {
+    id: "text-area",
+    title: "Area de texto",
+    description:
+      "Label 14px semibold, multilinea sin resize manual, borde 1px gris y 3 filas por defecto o las que se definan por prop.",
+    render: () => (
+      <View className="w-full">
+        <TextAreaField
+          label="Observaciones"
+          placeholder="Administrar con alimento y vigilar tolerancia"
+          rows={4}
+        />
+      </View>
+    ),
+    footer:
+      "Props clave: `rows`, `helperText`, `className` e `inputClassName`.",
+  },
+  {
     id: "search-field",
     title: "Buscador",
     description:
@@ -211,6 +234,101 @@ export const showcaseRegistry: ShowcaseEntry[] = [
     ),
     footer:
       "Estados disponibles: `healthy`, `attention`, `critical`. Permite override con `statusLabel`.",
+  },
+  {
+    id: "forum-item-card",
+    title: "Item de foro",
+    description:
+      "Tarjeta con avatar pequeno, nombre y tiempo de publicacion en 14px semibold, mas descripcion de 16px light en la segunda fila.",
+    render: () => (
+      <View className="w-full">
+        <ForumItemCard
+          authorName="Laura Gómez"
+          avatar={personAvatarSample}
+          description="Mi perro lleva casi dos días sin querer comer como normalmente lo hace, solo toma un poco de agua y se ve más..."
+          publishedAt="hace 5min"
+        />
+      </View>
+    ),
+    footer:
+      "Props clave: `avatar`, `authorName`, `publishedAt`, `description`, `className` y `disabled`.",
+  },
+  {
+    id: "map-detail-card",
+    title: "Detalle de mapa",
+    description:
+      "Tarjeta extendida basada en el item de mapa, con telefono en la segunda fila, direccion full width de 16px light y boton final celeste.",
+    render: () => (
+      <View className="w-full">
+        <MapDetailCard
+          address="Ak 9 # 164-6, 110131, Cra. 9 #164-06, Bogotá, Cundinamarca"
+          name="Zeus veterinaria"
+          phone="3134558934"
+          schedule="8:00 - 17:00"
+          stars={4}
+        />
+      </View>
+    ),
+    footer:
+      "Props clave: `name`, `schedule`, `phone`, `address`, `stars`, `buttonLabel` y `onMapsPress`.",
+  },
+  {
+    id: "map-item-card",
+    title: "Item de mapa",
+    description:
+      "Tarjeta de dos filas con `MapPinHouse`, nombre truncado 14px semibold, rating de 1 a 5 estrellas y horario con `Clock` y `ArrowRight`.",
+    render: () => (
+      <View className="w-full">
+        <MapItemCard
+          name="Zeus veterinaria"
+          schedule="8:00 - 17:00"
+          stars={4}
+        />
+      </View>
+    ),
+    footer:
+      "Props clave: `name`, `schedule`, `stars`, `className` y `disabled`. Las estrellas inactivas usan gris.",
+  },
+  {
+    id: "medication-detail-card",
+    title: "Detalle de medicamento",
+    description:
+      "Tarjeta extendida con filas de estado, medicamento, lapso, dosis aplicadas, descripcion de 16px light y boton final en variante cyan.",
+    render: () => (
+      <View className="w-full">
+        <MedicationDetailCard
+          appliedDoses="7 de 14"
+          description={
+            "Se indica administrar una dosis de 500 mg por vía oral cada 12 horas durante un periodo de 7 días. Se recomienda suministrar el medicamento junto con alimento para reducir posibles molestias gastrointestinales.\n\nEs importante completar el tratamiento según lo indicado, sin suspenderlo antes de tiempo. En caso de que el paciente presente vómito, diarrea o signos de reacción alérgica, se debe suspender la administración y consultar nuevamente con el veterinario."
+          }
+          interval="Cada 12h"
+          medicationName="Amoxicilina"
+          petName="Luna"
+          status="soon"
+          time="08:00 AM"
+        />
+      </View>
+    ),
+    footer:
+      "Props clave: `interval`, `appliedDoses`, `description`, `buttonLabel` y `onAdministeredPress`. Reutiliza los estados del item basico.",
+  },
+  {
+    id: "medication-item-card",
+    title: "Item de medicamento",
+    description:
+      "Tarjeta de dos filas con `SquarePen`, nombre de mascota 14px semibold, estado en rojo/amarillo/verde, `Pill` y hora con `Hourglass`.",
+    render: () => (
+      <View className="w-full">
+        <MedicationItemCard
+          medicationName="Amoxicilina"
+          petName="Luna"
+          status="soon"
+          time="08:00 AM"
+        />
+      </View>
+    ),
+    footer:
+      "Estados: `expiring`, `soon` y `onTime`. Permite override con `statusLabel`.",
   },
   {
     id: "pet-item-card",
