@@ -5,7 +5,14 @@ import { type Href, useRouter } from "expo-router";
 import { ChevronRight, LogOut } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ProfileHeader } from "@/components/auth/profile-header";
@@ -128,21 +135,35 @@ export default function ProfileScreen() {
   };
 
   const handleSignOut = () => {
+    const performSignOut = async () => {
+      try {
+        setIsSigningOut(true);
+        await signOut();
+        router.replace("/" as Href);
+      } catch (caughtError) {
+        setSubmitError(getErrorMessage(caughtError));
+      } finally {
+        setIsSigningOut(false);
+      }
+    };
+
+    if (Platform.OS === "web") {
+      const confirmed =
+        typeof window !== "undefined" &&
+        window.confirm("¿Seguro que quieres cerrar sesión?");
+      if (confirmed) {
+        void performSignOut();
+      }
+      return;
+    }
+
     Alert.alert("Cerrar sesión", "¿Seguro que quieres cerrar sesión?", [
       { text: "Cancelar", style: "cancel" },
       {
         text: "Cerrar sesión",
         style: "destructive",
-        onPress: async () => {
-          try {
-            setIsSigningOut(true);
-            await signOut();
-            router.replace("/" as Href);
-          } catch (caughtError) {
-            setSubmitError(getErrorMessage(caughtError));
-          } finally {
-            setIsSigningOut(false);
-          }
+        onPress: () => {
+          void performSignOut();
         },
       },
     ]);
