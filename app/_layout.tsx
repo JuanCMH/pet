@@ -1,6 +1,7 @@
 import "../global.css";
 
 import {
+  Montserrat_300Light,
   Montserrat_400Regular,
   Montserrat_600SemiBold,
   Montserrat_700Bold,
@@ -18,6 +19,7 @@ void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
+    Montserrat_300Light,
     Montserrat_400Regular,
     Montserrat_600SemiBold,
     Montserrat_700Bold,

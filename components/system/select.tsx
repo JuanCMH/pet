@@ -37,8 +37,8 @@ export function SelectField({
   );
 
   return (
-    <View className={cn("gap-2", className)}>
-      <Text className="font-bold text-[14px] text-cobalto">{label}</Text>
+    <View className={cn("gap-1", className)}>
+      <Text className="font-semibold text-[14px] text-cobalto">{label}</Text>
 
       <AnchoredPopover
         renderTrigger={({ ref, toggle }) => (

@@ -6,7 +6,7 @@ import {
   SquarePen,
   Timer,
 } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import { AppColors } from "@/constants/theme";
 import { cn } from "@/lib/utils";
@@ -32,6 +32,7 @@ export type MedicationDetailCardProps = VariantProps<
   className?: string;
   disabled?: boolean;
   onAdministeredPress?: () => void;
+  onEditPress?: () => void;
 };
 
 export function MedicationDetailCard({
@@ -47,6 +48,7 @@ export function MedicationDetailCard({
   className,
   disabled = false,
   onAdministeredPress,
+  onEditPress,
 }: MedicationDetailCardProps) {
   const resolvedStatus = status ?? "onTime";
   const resolvedStatusLabel =
@@ -62,7 +64,15 @@ export function MedicationDetailCard({
     >
       <CardRow
         leading={
-          <SquarePen color={AppColors.cobalto} size={16} strokeWidth={2} />
+          <Pressable
+            accessibilityLabel="Editar medicamento"
+            accessibilityRole="button"
+            disabled={disabled || !onEditPress}
+            hitSlop={10}
+            onPress={onEditPress}
+          >
+            <SquarePen color={AppColors.cobalto} size={16} strokeWidth={2} />
+          </Pressable>
         }
         primary={petName}
         primaryClassName="font-semibold"

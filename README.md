@@ -24,6 +24,18 @@ bunx convex dev
 
 Mientras `EXPO_PUBLIC_CONVEX_URL` no exista, la app levanta sin conectar Convex.
 
+### Auth por contraseña
+
+La app usa Convex Auth solo con email/password. Para recuperación de contraseña
+por código configura estas variables en Convex:
+
+```bash
+bunx convex env set RESEND_API_KEY "tu_api_key_de_resend"
+```
+
+El remitente queda fijo en el dominio de referencia usado por Aegis:
+`PetWell <harmony@n3xus.cloud>`.
+
 ## Estructura útil
 
 - `app/`: rutas de Expo Router

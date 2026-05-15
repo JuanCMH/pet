@@ -25,6 +25,7 @@ const lightTheme = {
 export const Colors = lightTheme;
 
 export const Fonts = {
+  light: "Montserrat_300Light",
   sans: "Montserrat_400Regular",
   serif: "Montserrat_400Regular",
   rounded: "Montserrat_700Bold",

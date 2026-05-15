@@ -21,10 +21,13 @@ import {
   SearchField,
   SelectField,
   StatusItem,
+  StressSlider,
   TextAreaField,
   TextInputField,
   UserBanner,
+  VetsMap,
 } from "@/components/system";
+import { ActivityChart } from "@/components/system/activity-chart";
 
 const personAvatarSample = require("@/assets/images/avatars/person-avatar.png");
 const petAvatarSample = require("@/assets/images/avatars/pet-avatar.png");
@@ -290,6 +293,37 @@ export const showcaseRegistry: ShowcaseEntry[] = [
       "Props clave: `name`, `schedule`, `stars`, `className` y `disabled`. Las estrellas inactivas usan gris.",
   },
   {
+    id: "vets-map",
+    title: "Mapa de veterinarias",
+    description:
+      "Render multiplataforma: usa `react-native-maps` en nativo y un canvas SVG con marcadores en web. Marcadores en celeste, seleccionado en rojo.",
+    render: () => (
+      <View className="h-[240px] w-full overflow-hidden rounded-component border border-gris">
+        <VetsMap
+          initialLatitude={4.711}
+          initialLongitude={-74.0721}
+          markers={[
+            {
+              id: "zeus",
+              name: "Zeus veterinaria",
+              latitude: 4.7125,
+              longitude: -74.071,
+              selected: true,
+            },
+            {
+              id: "salud-animal",
+              name: "Salud animal",
+              latitude: 4.7095,
+              longitude: -74.0735,
+            },
+          ]}
+        />
+      </View>
+    ),
+    footer:
+      "Props clave: `initialLatitude`, `initialLongitude`, `markers`, `onMarkerPress`. Usa `forwardRef<VetsMapHandle>` con `animateToRegion`.",
+  },
+  {
     id: "medication-detail-card",
     title: "Detalle de medicamento",
     description:
@@ -369,6 +403,41 @@ export const showcaseRegistry: ShowcaseEntry[] = [
         <EmptyState />
       </View>
     ),
+  },
+  {
+    id: "stress-slider",
+    title: "StressSlider",
+    description: "Indicador visual del nivel de estrés de la mascota",
+    render: () => (
+      <View className="w-full">
+        <StressSlider value={0.35} />
+      </View>
+    ),
+    footer:
+      "Prop clave: `value` entre 0 y 1. Gradiente verde → amarillo → naranja → rojo.",
+  },
+  {
+    id: "activity-chart",
+    title: "ActivityChart",
+    description: "Gráfica de actividad de la mascota a lo largo del día",
+    render: () => (
+      <View className="w-full">
+        <ActivityChart
+          currentHour={12}
+          data={[
+            { hour: 6, level: 0 },
+            { hour: 8, level: 1 },
+            { hour: 10, level: 2 },
+            { hour: 12, level: 3 },
+            { hour: 14, level: 2 },
+            { hour: 16, level: 1 },
+            { hour: 18, level: 0 },
+          ]}
+        />
+      </View>
+    ),
+    footer:
+      "Renderiza una línea con puntos sobre 4 niveles (Reposo/Mediano/Alto/Excesivo).",
   },
 ];
 

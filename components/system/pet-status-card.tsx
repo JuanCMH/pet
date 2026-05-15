@@ -72,7 +72,7 @@ export function PetStatusCard({
       <View className="flex-1 gap-2">
         <View className="flex-row items-start justify-between gap-2">
           <Text
-            className="flex-1 font-bold text-[14px] text-cobalto"
+            className="flex-1 font-semibold text-[14px] text-cobalto"
             numberOfLines={1}
           >
             {petName}

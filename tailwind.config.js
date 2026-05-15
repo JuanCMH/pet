@@ -27,6 +27,7 @@ module.exports = {
         danger: "#F87171",
       },
       fontFamily: {
+        "montserrat-light": ["Montserrat_300Light"],
         sans: ["Montserrat_400Regular"],
         bold: ["Montserrat_700Bold"],
       },

@@ -18,8 +18,8 @@ export function SearchField({
   ...props
 }: SearchFieldProps) {
   return (
-    <View className={cn("gap-2", className)}>
-      <Text className="font-bold text-[14px] text-cobalto">{label}</Text>
+    <View className={cn("gap-1", className)}>
+      <Text className="font-semibold text-[14px] text-cobalto">{label}</Text>
 
       <View className="flex-row items-center rounded-component border border-gris bg-blanco px-2 py-2 shadow-sm">
         <TextInput

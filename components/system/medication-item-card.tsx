@@ -1,6 +1,6 @@
 import type { VariantProps } from "class-variance-authority";
 import { Hourglass, Pill, SquarePen } from "lucide-react-native";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { AppColors } from "@/constants/theme";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,7 @@ export type MedicationItemCardProps = VariantProps<
   statusLabel?: string;
   className?: string;
   disabled?: boolean;
+  onEditPress?: () => void;
 };
 
 export function MedicationItemCard({
@@ -30,6 +31,7 @@ export function MedicationItemCard({
   statusLabel,
   className,
   disabled = false,
+  onEditPress,
 }: MedicationItemCardProps) {
   const resolvedStatus = status ?? "onTime";
   const resolvedStatusLabel =
@@ -45,7 +47,15 @@ export function MedicationItemCard({
     >
       <CardRow
         leading={
-          <SquarePen color={AppColors.cobalto} size={16} strokeWidth={2} />
+          <Pressable
+            accessibilityLabel="Editar medicamento"
+            accessibilityRole="button"
+            disabled={disabled || !onEditPress}
+            hitSlop={10}
+            onPress={onEditPress}
+          >
+            <SquarePen color={AppColors.cobalto} size={16} strokeWidth={2} />
+          </Pressable>
         }
         primary={petName}
         primaryClassName="font-semibold"
