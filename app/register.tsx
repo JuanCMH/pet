@@ -13,6 +13,7 @@ import { Button } from "@/components/system/button";
 import { TextInputField } from "@/components/system/text-input";
 import { api } from "@/convex/_generated/api";
 import { getErrorMessage } from "@/lib/get-error-message";
+import { PASSWORD_HELPER_TEXT, validatePassword } from "@/lib/password";
 
 const homeRoute = "/" as Href;
 const loginRoute = "/login" as Href;
@@ -43,6 +44,12 @@ export default function RegisterScreen() {
 
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
 
@@ -96,6 +103,7 @@ export default function RegisterScreen() {
         value={email}
       />
       <TextInputField
+        helperText={PASSWORD_HELPER_TEXT}
         label="Contraseña"
         onChangeText={setPassword}
         secureTextEntry

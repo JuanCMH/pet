@@ -7,6 +7,7 @@ import { AuthScreen } from "@/components/auth/auth-screen";
 import { Button } from "@/components/system/button";
 import { TextInputField } from "@/components/system/text-input";
 import { getErrorMessage } from "@/lib/get-error-message";
+import { PASSWORD_HELPER_TEXT, validatePassword } from "@/lib/password";
 
 const homeRoute = "/" as Href;
 const loginRoute = "/login" as Href;
@@ -44,6 +45,12 @@ export default function NewPasswordScreen() {
       return;
     }
 
+    const passwordError = validatePassword(newPassword);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
     setPending(true);
     try {
       await signIn("password", {
@@ -74,6 +81,7 @@ export default function NewPasswordScreen() {
         value={code}
       />
       <TextInputField
+        helperText={PASSWORD_HELPER_TEXT}
         label="Nueva contraseña"
         onChangeText={setNewPassword}
         secureTextEntry

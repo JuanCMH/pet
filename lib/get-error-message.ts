@@ -1,11 +1,24 @@
 const KNOWN_MESSAGES: Array<{ test: RegExp; message: string }> = [
   {
-    test: /invalidaccountid|account not found|invalidsecret|invalid password|wrong password|invalid credentials/i,
+    test: /invalidaccountid|account not found|no account found/i,
+    message: "No existe una cuenta con este correo.",
+  },
+  {
+    test: /invalidsecret|wrong password|invalid credentials/i,
     message: "Correo o contraseña incorrectos.",
+  },
+  {
+    test: /invalidpassword|password.*(short|weak|length|requirements|too)/i,
+    message:
+      "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.",
   },
   {
     test: /accountalreadyexists|already exists|email.*taken|duplicate/i,
     message: "Ya existe una cuenta con este correo.",
+  },
+  {
+    test: /invalidverificationcode|code.*(invalid|expired|incorrect)/i,
+    message: "El código es inválido o expiró. Solicita uno nuevo.",
   },
   {
     test: /too many requests|rate limit/i,
@@ -14,10 +27,6 @@ const KNOWN_MESSAGES: Array<{ test: RegExp; message: string }> = [
   {
     test: /invalid.*email|email.*invalid/i,
     message: "Ingresa un correo electrónico válido.",
-  },
-  {
-    test: /password.*(short|weak|length)/i,
-    message: "La contraseña no cumple con los requisitos.",
   },
   {
     test: /network|fetch failed|failed to fetch|offline|timeout/i,
