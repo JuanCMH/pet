@@ -5,14 +5,7 @@ import { type Href, useRouter } from "expo-router";
 import { ChevronRight, LogOut } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  ActivityIndicator,
-  Alert,
-  Platform,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ProfileHeader } from "@/components/auth/profile-header";
@@ -61,7 +54,6 @@ export default function ProfileScreen() {
 
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const { control, handleSubmit, reset, watch, setValue, formState } =
     useForm<ProfileFormValues>({
@@ -98,8 +90,7 @@ export default function ProfileScreen() {
 
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
-      Alert.alert(
-        "Permiso requerido",
+      setSubmitError(
         "Debes permitir el acceso a tus fotos para cambiar tu avatar.",
       );
       return;
@@ -135,38 +126,7 @@ export default function ProfileScreen() {
   };
 
   const handleSignOut = () => {
-    const performSignOut = async () => {
-      try {
-        setIsSigningOut(true);
-        await signOut();
-        router.replace("/" as Href);
-      } catch (caughtError) {
-        setSubmitError(getErrorMessage(caughtError));
-      } finally {
-        setIsSigningOut(false);
-      }
-    };
-
-    if (Platform.OS === "web") {
-      const confirmed =
-        typeof window !== "undefined" &&
-        window.confirm("¿Seguro que quieres cerrar sesión?");
-      if (confirmed) {
-        void performSignOut();
-      }
-      return;
-    }
-
-    Alert.alert("Cerrar sesión", "¿Seguro que quieres cerrar sesión?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Cerrar sesión",
-        style: "destructive",
-        onPress: () => {
-          void performSignOut();
-        },
-      },
-    ]);
+    void signOut();
   };
 
   const onSubmit = handleSubmit(async (values) => {
@@ -327,11 +287,9 @@ export default function ProfileScreen() {
           <Button
             block
             className="mt-2 border-rojo"
-            disabled={isSigningOut}
             leftIcon={
               <LogOut color={AppColors.rojo} size={16} strokeWidth={2.4} />
             }
-            loading={isSigningOut}
             onPress={handleSignOut}
             textClassName="text-rojo"
             variant="outline"
